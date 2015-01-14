@@ -1,0 +1,16 @@
+It ist possible to convert your ssh public key to PEM format(that 'openssl rsautl' can read it):
+
+
+ssh-keygen -f ~/.ssh/id_rsa.pub -e -m PKCS8 > id_rsa.pem.pub
+
+Assumung 'myMessage.txt' ist your message which shoud be public-key encrypted.
+
+Then just encrypt your message with openssl rsautl and your converted PEM public-key as you would normally do:
+
+openssl rsautl -encrypt -pubin -inkey id_rsa.pem.pub -ssl -in myMessage.txt -out myEncryptedMessage.txt
+
+openssl rsautl -decrypt -inkey ~/.ssh/id_rsa -in myEncryptedMessage.txt -out myDecryptedMessage.txt
+
+The result is your encrypted message in 'myEncryptedMessage.txt'
+
+To test your work to decrypt the with Alice' private key:
